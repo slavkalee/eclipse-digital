@@ -17,7 +17,7 @@
             class="input"
             type="number"
             v-model="amount"
-            @keyup="debounceHandler"
+            @keyup="debounceConvertHandler"
           />
         </fieldset>
       </div>
@@ -46,11 +46,13 @@
 </template>
 
 <script setup>
+import { useCurrencies } from '@/compositions/currencies';
 import { useConverter } from '@/compositions/converter';
 import { debounce } from '@/helpers/utils';
 
 import ReverseIcon from '@/components/icons/ReverseIcon.vue';
 
+const { currencies } = useCurrencies();
 const {
   amount,
   resultAmount,
@@ -58,9 +60,9 @@ const {
   displayCurrencies,
   handleConvert,
   reverseSelected,
-} = useConverter();
+} = useConverter(currencies.value);
 
-const debounceHandler = debounce(handleConvert, 300);
+const debounceConvertHandler = debounce(handleConvert, 300);
 </script>
 
 <style lang="scss" scoped>
@@ -101,10 +103,9 @@ const debounceHandler = debounce(handleConvert, 300);
 
 .field--container {
   border: none;
-  
+
   &:not(:last-child) {
     margin-bottom: 20px;
   }
 }
-
 </style>

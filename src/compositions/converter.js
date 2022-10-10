@@ -1,15 +1,12 @@
-import { useCurrencies } from '@/compositions/currencies';
 import { computed, ref } from 'vue';
 
-export function useConverter() {
-  const { currencies, currenciesObject } = useCurrencies();
-
+export function useConverter(currenciesValue) {
   const selected = ref(['RUB', 'USD']);
   const amount = ref('');
   const resultAmount = ref(null);
 
   const displayCurrencies = computed(() => {
-    return [{ CharCode: 'RUB' }, ...currencies.value];
+    return [{ CharCode: 'RUB' }, ...Object.values(currenciesValue)];
   });
 
   const handleConvert = () => {
@@ -18,13 +15,11 @@ export function useConverter() {
       Nominal: 1,
     };
 
-    let firstValute =
-        currenciesObject.value[selected.value[0]] ?? defaultValute,
+    let firstValute = currenciesValue[selected.value[0]] ?? defaultValute,
       firstValuteValue = firstValute.Value * Number(amount.value),
       firstValuteNominal = firstValute.Nominal;
 
-    let secondValute =
-        currenciesObject.value[selected.value[1]] ?? defaultValute,
+    let secondValute = currenciesValue[selected.value[1]] ?? defaultValute,
       secondValuteValue = secondValute.Value,
       secondValuteNominal = secondValute.Nominal;
 

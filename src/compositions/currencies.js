@@ -11,11 +11,8 @@ export function useCurrencies() {
 
   const currencies = computed(() => store.getters[getterTypes.currencies]);
 
-  const currenciesObject = computed(() => store.getters[getterTypes.currenciesObject])
-
   return {
     currencies,
-    currenciesObject,
     fetchCurrencies,
   };
 }

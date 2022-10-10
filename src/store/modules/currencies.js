@@ -18,7 +18,6 @@ export const mutationTypes = {
 
 export const getterTypes = {
   currencies: '[currencies] Currencies',
-  currenciesObject: '[currencies] Currencies object',
   currencyByCharCode: '[currencies] Currency by char code',
 };
 
@@ -55,15 +54,10 @@ const actions = {
 
 const getters = {
   [getterTypes.currencies](state) {
-    if (state.data) {
-      return Object.values(state.data);
-    }
+    return state.data;
   },
   [getterTypes.currencyByCharCode]: (state) => (charCode) => {
     return state.data[charCode];
-  },
-  [getterTypes.currenciesObject](state) {
-    return state.data;
   },
 };
 

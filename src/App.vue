@@ -17,14 +17,11 @@
 <script setup>
 import { onMounted } from 'vue';
 import { useCurrencies } from '@/compositions/currencies';
-import { useRates } from '@/compositions/rates';
 
 const { fetchCurrencies } = useCurrencies();
-const { fetchRates } = useRates();
 
 onMounted(() => {
   fetchCurrencies();
-  fetchRates();
 });
 </script>
 
@@ -53,5 +50,4 @@ onMounted(() => {
 main {
   margin-top: 50px;
 }
-
 </style>

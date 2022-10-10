@@ -1,6 +1,5 @@
 import { createStore } from 'vuex';
 import currenciesModule from '@/store/modules/currencies';
-import ratesModule from '@/store/modules/rates';
 
 const store = createStore({
   state: {},
@@ -9,7 +8,6 @@ const store = createStore({
   getters: {},
   modules: {
     currenciesModule,
-    ratesModule,
   },
 });
 

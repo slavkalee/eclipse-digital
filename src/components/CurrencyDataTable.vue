@@ -12,11 +12,7 @@
 
     <tbody>
       <template v-if="data.length">
-        <tr
-          v-for="curr in data"
-          :key="curr.ID"
-          @click="clickToRow(curr.CharCode)"
-        >
+        <tr v-for="curr in data" :key="curr.ID">
           <td>{{ curr.NumCode }}</td>
           <td>{{ curr.CharCode }}</td>
           <td align="right">{{ curr.Nominal }}</td>
@@ -50,12 +46,6 @@ import CurrencyDownIcon from '@/components/icons/CurrencyDownIcon.vue';
 const props = defineProps({
   data: { type: Array, required: true },
 });
-
-const emits = defineEmits(['handleClickToRow']);
-
-const clickToRow = (currencyCode) => {
-  emits('handleClickToRow', currencyCode);
-};
 </script>
 
 <style lang="scss">
@@ -78,7 +68,8 @@ tbody {
     }
   }
 
-  td {}
+  td {
+  }
 }
 
 th,
