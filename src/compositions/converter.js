@@ -1,34 +1,26 @@
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
+import { useCurrencies } from '@/compositions/currencies';
+import { useSelect } from '@/compositions/select';
+import { useRate } from '@/compositions/rate';
 
-export function useConverter(currenciesValue) {
-  const selected = ref(['RUB', 'USD']);
-  const amount = ref('');
+export function useConverter() {
+  const { currencies } = useCurrencies();
+  const { selected } = useSelect(['RUB', 'USD']);
+  const { getRate } = useRate();
+
+  const amount = ref(null);
   const resultAmount = ref(null);
 
-  const displayCurrencies = computed(() => {
-    return [{ CharCode: 'RUB' }, ...Object.values(currenciesValue)];
-  });
-
   const handleConvert = () => {
-    let defaultValute = {
-      Value: 1,
-      Nominal: 1,
-    };
+    const rate =
+      getRate(
+        currencies.value[selected.value[0]],
+        currencies.value[selected.value[1]]
+      ) * Number(amount.value);
 
-    let firstValute = currenciesValue[selected.value[0]] ?? defaultValute,
-      firstValuteValue = firstValute.Value * Number(amount.value),
-      firstValuteNominal = firstValute.Nominal;
+    resultAmount.value = rate.toFixed(4);
 
-    let secondValute = currenciesValue[selected.value[1]] ?? defaultValute,
-      secondValuteValue = secondValute.Value,
-      secondValuteNominal = secondValute.Nominal;
-
-    let result =
-      firstValuteValue /
-      firstValuteNominal /
-      (secondValuteValue / secondValuteNominal);
-
-    resultAmount.value = result ? Math.floor(result * 10000) / 10000 : null;
+    if (!amount.value) resultAmount.value = null;
   };
 
   const reverseSelected = () => {
@@ -40,7 +32,6 @@ export function useConverter(currenciesValue) {
     amount,
     selected,
     resultAmount,
-    displayCurrencies,
     handleConvert,
     reverseSelected,
   };

@@ -11,8 +11,22 @@ export function useCurrencies() {
 
   const currencies = computed(() => store.getters[getterTypes.currencies]);
 
+  const charCodes = computed(() => {
+    return ['RUB', ...store.getters[getterTypes.charCodes]];
+  });
+
+  const defaultCurrency = {
+    NumCode: 643,
+    Name: 'Российский рубль',
+    CharCode: 'RUB',
+    Value: 1,
+    Nominal: 1,
+  };
+
   return {
     currencies,
     fetchCurrencies,
+    charCodes,
+    defaultCurrency
   };
 }

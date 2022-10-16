@@ -9,17 +9,21 @@
   box-sizing: border-box;
 }
 
-.input, select {
+.input,
+select {
   width: 100%;
   padding: 15px 10px 15px 10px;
   border: 1px solid #ccc;
   outline: 0;
 }
 
+.input:read-only {
+  background-color: #f3f3f3;
+}
+
 .input__search {
   padding-left: 40px;
 }
-
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

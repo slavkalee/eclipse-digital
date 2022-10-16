@@ -2,14 +2,21 @@
   <div class="currency--list">
     <h1 class="currency--list__title">Курсы валют ЦБ РФ</h1>
 
-    <div class="currency--list__wrapper">
+    <div class="currency--list__container">
       <div class="currency--list__table--container">
-        <SearchBar :value="searchValue" :onChange="handleChange" />
+        <div class="currency--list__top--wrap">
+          <div class="currency--list__search">
+            <SearchBar :value="searchValue" :onChange="handleChange" />
+          </div>
 
-        <CurrencyDataTable
-          :data="displayCurrencies"
-          v-memo="[searchValue, displayCurrencies]"
-        />
+          <div class="currency--list__select">
+            <select v-model="selected">
+              <option v-for="curr in charCodes" :key="curr">{{ curr }}</option>
+            </select>
+          </div>
+        </div>
+
+        <CurrencyDataTable :data="displayCurrencies" />
       </div>
     </div>
   </div>
@@ -19,16 +26,36 @@
 import { computed } from 'vue';
 import { useCurrencies } from '@/compositions/currencies';
 import { useSearch } from '@/compositions/search';
+import { useSelect } from '@/compositions/select';
+import { useRate } from '@/compositions/rate';
 import { filterBy } from '@/helpers/utils';
-
 import CurrencyDataTable from '@/components/CurrencyDataTable.vue';
 import SearchBar from '@/components/SearchBar.vue';
 
 const { searchValue, handleChange } = useSearch();
-const { currencies } = useCurrencies();
+const { currencies, charCodes, defaultCurrency } = useCurrencies();
+const { selected } = useSelect('RUB');
+const { getRate } = useRate();
+
+const baseCurrency = computed(() => {
+  return currencies.value[selected.value];
+});
 
 const displayCurrencies = computed(() => {
-  const currenciesArray = Object.values(currencies.value);
+  const currenciesArray = [
+    defaultCurrency,
+    ...Object.values(currencies.value),
+  ].map((currency) => {
+    const currencyCopy = { ...currency };
+
+    if (baseCurrency.value && baseCurrency.value.CharCode !== 'RUB') {
+      const rate = getRate(currency, baseCurrency.value);
+
+      currencyCopy.Value = rate.toFixed(4);
+    }
+
+    return currencyCopy;
+  });
 
   return filterBy(currenciesArray, searchValue.value);
 });
@@ -42,8 +69,26 @@ const displayCurrencies = computed(() => {
     margin-bottom: 40px;
   }
 
-  &__wrapper {
+  &__top--wrap {
     display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
   }
+
+  &__search {
+    width: 78%;
+  }
+
+  &__select {
+    width: 20%;
+  }
+
+  &__table--container {
+    width: 100%;
+  }
+}
+
+.main__currency {
+  margin-bottom: 30px;
 }
 </style>

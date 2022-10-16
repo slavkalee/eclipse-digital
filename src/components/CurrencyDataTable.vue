@@ -18,20 +18,6 @@
           <td align="right">{{ curr.Nominal }}</td>
           <td>{{ curr.Name }}</td>
           <td>{{ curr.Value }}</td>
-          <td class="rating">
-            <template v-if="curr.Value > curr.Previous">
-              <CurrencyUpIcon :width="30" :height="30" fill="green" />
-              <span class="difference"
-                >(+{{ (curr.Value - curr.Previous).toFixed(3) }})</span
-              >
-            </template>
-            <template v-else>
-              <CurrencyDownIcon :width="30" :height="30" fill="red" />
-              <span class="difference"
-                >(-{{ +(curr.Previous - curr.Value).toFixed(3) }})</span
-              >
-            </template>
-          </td>
         </tr>
       </template>
     </tbody>
@@ -40,8 +26,6 @@
 
 <script setup>
 import { defineProps } from 'vue';
-import CurrencyUpIcon from '@/components/icons/CurrencyUpIcon.vue';
-import CurrencyDownIcon from '@/components/icons/CurrencyDownIcon.vue';
 
 const props = defineProps({
   data: { type: Array, required: true },

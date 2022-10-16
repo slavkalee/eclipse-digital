@@ -26,8 +26,7 @@ const props = defineProps({
 .form--field {
   position: relative;
   border: none;
-  margin-bottom: 20px;
-  
+
   &__search--icon {
     position: absolute;
     top: 50%;

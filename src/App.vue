@@ -1,13 +1,7 @@
 <template>
   <div class="container">
-    <nav class="menu">
-      <router-link class="menu__link" :to="{ name: 'currencies' }">
-        Список Валют
-      </router-link>
-      <router-link class="menu__link" :to="{ name: 'converter' }">
-        Конвертер
-      </router-link>
-    </nav>
+    <Tabs />
+    
     <main>
       <router-view></router-view>
     </main>
@@ -17,6 +11,7 @@
 <script setup>
 import { onMounted } from 'vue';
 import { useCurrencies } from '@/compositions/currencies';
+import Tabs from '@/components/Tabs.vue';
 
 const { fetchCurrencies } = useCurrencies();
 
@@ -27,24 +22,8 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .container {
-  width: 800px;
+  width: 70%;
   margin: 50px auto;
-}
-
-.menu {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  &__link {
-    padding: 10px 15px;
-    text-decoration: none;
-    color: #000;
-
-    &:not(:last-child) {
-      border-right: 1px solid rgba(18, 43, 66, 0.87);
-    }
-  }
 }
 
 main {

@@ -6,9 +6,7 @@
       <div class="converter__from">
         <fieldset class="field--container">
           <select v-model="selected[0]" @change="handleConvert">
-            <option v-for="curr in displayCurrencies" :key="curr">{{
-              curr.CharCode
-            }}</option>
+            <option v-for="curr in charCodes" :key="curr">{{ curr }}</option>
           </select>
         </fieldset>
 
@@ -24,21 +22,19 @@
 
       <div class="converter__reverse">
         <button class="converter__reverse--btn" @click="reverseSelected">
-          <ReverseIcon />
+          <ReverseIcon fill="#FFF" />
         </button>
       </div>
 
       <div class="converter__to">
         <fieldset class="field--container">
           <select v-model="selected[1]" @change="handleConvert">
-            <option v-for="curr in displayCurrencies" :key="curr">{{
-              curr.CharCode
-            }}</option>
+            <option v-for="curr in charCodes" :key="curr">{{ curr }}</option>
           </select>
         </fieldset>
 
         <fieldset class="field--container">
-          <input class="input" type="number" v-model="resultAmount" readonly />
+          <input class="input" type="number" v-model="resultAmount" :readonly="true" />
         </fieldset>
       </div>
     </div>
@@ -49,18 +45,16 @@
 import { useCurrencies } from '@/compositions/currencies';
 import { useConverter } from '@/compositions/converter';
 import { debounce } from '@/helpers/utils';
-
 import ReverseIcon from '@/components/icons/ReverseIcon.vue';
 
-const { currencies } = useCurrencies();
+const { charCodes } = useCurrencies();
 const {
   amount,
   resultAmount,
   selected,
-  displayCurrencies,
   handleConvert,
   reverseSelected,
-} = useConverter(currencies.value);
+} = useConverter();
 
 const debounceConvertHandler = debounce(handleConvert, 300);
 </script>
@@ -91,8 +85,7 @@ const debounceConvertHandler = debounce(handleConvert, 300);
       height: 50px;
       border-radius: 50%;
       border: none;
-      background: #fff;
-      border: 1px solid #ccc;
+      background: rgba(18, 43, 66, 0.87);
       display: flex;
       justify-content: center;
       align-items: center;

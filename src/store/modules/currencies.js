@@ -19,6 +19,7 @@ export const mutationTypes = {
 export const getterTypes = {
   currencies: '[currencies] Currencies',
   currencyByCharCode: '[currencies] Currency by char code',
+  charCodes: '[currencies] Char codes',
 };
 
 const mutations = {
@@ -58,6 +59,9 @@ const getters = {
   },
   [getterTypes.currencyByCharCode]: (state) => (charCode) => {
     return state.data[charCode];
+  },
+  [getterTypes.charCodes](state) {
+    return Object.values(state.data).map((currency) => currency.CharCode);
   },
 };
 
